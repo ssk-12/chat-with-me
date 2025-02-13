@@ -4,16 +4,21 @@ import { useAuth } from "../context/AuthContext"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import LoadingSpinner from "../components/LoadingSpinner"
 
 export default function Dashboard() {
-  const { user, logout } = useAuth()
+  const { user, logout, isLoading } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
-    if (!user) {
+    if (!isLoading && !user) {
       router.push("/auth/signin")
     }
-  }, [user, router])
+  }, [user, isLoading, router])
+
+  if (isLoading) {
+    return <LoadingSpinner />
+  }
 
   if (!user) {
     return null

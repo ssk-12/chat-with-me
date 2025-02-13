@@ -26,8 +26,6 @@ export default function SignInForm() {
     if (result.success) {
       setUser(result.user)
       localStorage.setItem("user", JSON.stringify(result.user))
-      console.log(result.user)
-      console.log(localStorage.getItem("user"))
       toast.success("Signed in successfully")
       router.push("/dashboard")
     } else {

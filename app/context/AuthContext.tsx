@@ -3,6 +3,7 @@
 import type React from "react"
 import { createContext, useContext, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { logout as logoutAction } from "../actions/auth"
 
 type User = {
   id: number
@@ -14,6 +15,7 @@ type AuthContextType = {
   user: User | null
   setUser: React.Dispatch<React.SetStateAction<User | null>>
   logout: () => void
+  isLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -28,22 +30,38 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
-    // Check for user data in localStorage on initial load
-    const storedUser = localStorage.getItem("user")
-    if (storedUser) {
-      setUser(JSON.parse(storedUser))
+    const checkAuth = async () => {
+      try {
+        const response = await fetch("/api/auth/check", { credentials: "include" })
+        if (response.ok) {
+          const userData = await response.json()
+          setUser(userData)
+        }
+      } catch (error) {
+        console.error("Auth check failed:", error)
+      } finally {
+        setIsLoading(false)
+      }
     }
+
+    checkAuth()
   }, [])
 
-  const logout = () => {
-    setUser(null)
-    localStorage.removeItem("user")
-    router.push("/auth/signin")
+  const logout = async () => {
+    try {
+      setUser(null)
+      localStorage.removeItem("user")
+      await logoutAction()
+      router.push("/auth/signin")
+    } catch (error) {
+      console.error("Logout failed:", error)
+    }
   }
 
-  return <AuthContext.Provider value={{ user, setUser, logout }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, setUser, logout, isLoading }}>{children}</AuthContext.Provider>
 }
 
