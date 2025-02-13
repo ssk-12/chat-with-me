@@ -38,7 +38,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         const response = await fetch("/api/auth/check", { credentials: "include" })
         if (response.ok) {
-          return 
+          const userData = await response.json()
+          setUser(userData)
         }
       } catch (error) {
         console.error("Auth check failed:", error)
