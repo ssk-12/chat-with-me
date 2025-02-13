@@ -23,8 +23,8 @@ export async function signUp(formData: FormData) {
 
     const data = await response.json()
 
-    // Set JWT in an HTTP-only cookie
-    cookies().set("jwt", data.jwt, {
+    const cookieStore = await cookies()
+    await cookieStore.set("jwt", data.jwt, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -56,8 +56,8 @@ export async function signIn(formData: FormData) {
 
     const data = await response.json()
 
-    // Set JWT in an HTTP-only cookie
-    cookies().set("jwt", data.jwt, {
+    const cookieStore = await cookies()
+    cookieStore.set("jwt", data.jwt, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -72,7 +72,8 @@ export async function signIn(formData: FormData) {
 }
 
 export async function logout() {
-  cookies().delete("jwt")
+  const cookieStore = await cookies()
+  cookieStore.delete("jwt")
   return { success: true }
 }
 
