@@ -34,10 +34,14 @@ export async function GET() {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 })
   }
 
+
   
  
   const user = await fetchUserDetails(jwt.value);
-  console.log(user)
+  if (!user) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 })
+  }
+
   return NextResponse.json(user)
 }
 
