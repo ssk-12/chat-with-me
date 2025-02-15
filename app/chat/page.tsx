@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useWebSocket } from "../context/WebSocketContext"
 import { useSearchParams, useRouter } from "next/navigation"
@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import LoadingSpinner from "../components/LoadingSpinner"
 import { Menu, X } from "lucide-react"
 
-export default function ChatPage() {
+function ChatContent() {
   const { user, isLoading } = useAuth()
   const { isConnected } = useWebSocket()
   const searchParams = useSearchParams()
@@ -185,6 +185,14 @@ export default function ChatPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <ChatContent />
+    </Suspense>
   )
 }
 
