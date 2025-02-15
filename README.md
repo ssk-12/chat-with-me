@@ -1,40 +1,130 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chat With Me 🤖💬
 
-## Getting Started
+A real-time AI chat application built with modern web technologies that enables seamless communication between users and AI. Try it out at [chat-with-me-taupe.vercel.app](https://chat-with-me-taupe.vercel.app)!
 
-First, run the development server:
+## 🛠️ Tech Stack
 
+### Frontend
+- **Next.js 14** - React framework with App Router
+- **TypeScript** - Static type checking
+- **Tailwind CSS** - Utility-first CSS framework
+- **Shadcn/UI** - Reusable component system
+- **Lucide Icons** - Beautiful icon system
+- **React Hook Form** - Form validation
+- **Socket.io-client** - Real-time WebSocket communication
+
+### Backend Integration
+- **WebSocket** - Real-time bidirectional communication
+- **JWT Authentication** - Secure user authentication
+- **REST API** - HTTP endpoints for data fetching
+
+### State Management & Utilities
+- **React Context** - Application state management
+- **React Hooks** - Component logic
+- **next/navigation** - Client-side routing
+
+## 🏗️ Project Structure
+
+```
+chat-with-me/
+├── app/
+│   ├── actions/
+│   │   └── auth.ts           # Authentication actions
+│   ├── auth/
+│   │   ├── signin/          # Sign in page
+│   │   └── signup/          # Sign up page
+│   ├── chat/
+│   │   └── page.tsx         # Chat interface
+│   ├── components/
+│   │   ├── ChatSession.tsx  # Chat session component
+│   │   ├── SignInForm.tsx   # Sign in form
+│   │   └── SignUpForm.tsx   # Sign up form
+│   ├── context/
+│   │   ├── AuthContext.tsx  # Authentication context
+│   │   └── WebSocketContext.tsx # WebSocket context
+│   ├── services/
+│   │   └── chatService.ts   # Chat API services
+│   ├── layout.tsx           # Root layout
+│   └── page.tsx             # Landing page
+├── components/
+│   └── ui/                  # Shadcn UI components
+├── lib/
+│   └── utils.ts             # Utility functions
+├── public/                  # Static assets
+└── styles/                  # Global styles
+```
+
+## ✨ Features
+
+- 🔐 **Secure Authentication**
+  - JWT-based auth system
+  - Protected routes
+  - Persistent sessions
+
+- 💬 **Real-time Chat**
+  - WebSocket connection
+  - Message history
+  - Typing indicators
+  - Read receipts
+
+- 🎨 **Modern UI/UX**
+  - Responsive design
+  - Dark/Light mode
+  - Custom scrollbars
+  - Loading states
+  - Toast notifications
+
+- 📱 **Multi-platform Support**
+  - Desktop optimization
+  - Mobile responsiveness
+  - Touch device support
+
+- 🔄 **Session Management**
+  - Multiple chat sessions
+  - Session persistence
+  - Real-time updates
+
+## 🚀 Getting Started
+
+1. Clone the repository:
+```bash
+git clone https://github.com/ssk-12/chat-with-me.git
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+3. Run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 👨‍💻 Developer
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Name**: Ullegadda Saisrikanta
+- **Email**: ullegadda.srikanta@gmail.com
+- **GitHub**: [github.com/ssk-12](https://github.com/ssk-12)
 
-## Learn More
+## 📄 License
 
-To learn more about Next.js, take a look at the following resources:
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🙏 Acknowledgments
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Built with [Next.js](https://nextjs.org/)
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Icons from [Lucide](https://lucide.dev/)
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# cms
->>>>>>> 4d2c7917038b7d55272bf5f127de882f2dde7270
