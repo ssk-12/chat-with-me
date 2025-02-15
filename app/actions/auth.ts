@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers"
 
-const API_URL = process.env.API_URL
+const API_URL = "http://localhost:1337/api"
 
 export async function signUp(formData: FormData) {
   const username = formData.get("username") as string
@@ -10,7 +10,7 @@ export async function signUp(formData: FormData) {
   const password = formData.get("password") as string
 
   try {
-    const response = await fetch(`${API_URL}/api/auth/local/register`, {
+    const response = await fetch(`${API_URL}/auth/local/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password }),
@@ -43,7 +43,7 @@ export async function signIn(formData: FormData) {
   const password = formData.get("password") as string
 
   try {
-    const response = await fetch(`${API_URL}/api/auth/local`, {
+    const response = await fetch(`${API_URL}/auth/local`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ identifier, password }),
