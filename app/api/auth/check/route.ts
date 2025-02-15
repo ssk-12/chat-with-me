@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 export async function GET() {
   const fetchUserDetails = async (jwt: string) => {
     try {
-      const response = await fetch('http://localhost:1337/api/users/me', {
+      const response = await fetch('https://wise-basketball-34f2254001.strapiapp.com/api/users/me', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${jwt}`,

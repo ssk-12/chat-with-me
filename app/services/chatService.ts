@@ -1,4 +1,4 @@
-const API_URL = process.env.API_URL
+const API_URL = "https://wise-basketball-34f2254001.strapiapp.com/api"
 
 
 export async function createChatSession(title: string, userId: string, jwt?: string) {

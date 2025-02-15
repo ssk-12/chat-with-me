@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers"
 
-const API_URL = "http://localhost:1337/api"
+const API_URL = "https://wise-basketball-34f2254001.strapiapp.com/api"
 
 export async function signUp(formData: FormData) {
   const username = formData.get("username") as string

@@ -27,7 +27,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   useEffect(() => {
     if (user) {
-      const newSocket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL || "")
+      const newSocket = io("https://wise-basketball-34f2254001.strapiapp.com")
 
       newSocket.on("connect", () => {
         console.log("Connected to WebSocket server")
