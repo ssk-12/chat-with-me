@@ -84,27 +84,36 @@ export default function ChatSession({ session }: ChatSessionProps) {
 
   return (
     <Card className="h-full flex flex-col">
-      <CardContent className="p-6 flex flex-col h-full">
-        <h2 className="text-2xl font-bold mb-4">{session.Title}</h2>
-        <div className="flex-1 overflow-y-auto mb-4 space-y-4">
+      <CardContent className="p-4 md:p-6 flex flex-col h-full">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl md:text-2xl font-bold truncate">{session.Title}</h2>
+          <Button variant="ghost" size="sm" onClick={() => window.history.back()}>
+            Back
+          </Button>
+        </div>
+        <div className="flex-1 overflow-y-auto mb-4 space-y-4 min-h-[300px] max-h-[calc(100vh-200px)]">
           {messages.map((message) => (
             <div key={message.id} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}>
-              <div className={`flex items-start space-x-2 max-w-[70%] ${message.isUser ? 'flex-row-reverse' : ''}`}>
-                <div className={`p-2 rounded-lg ${message.isUser ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}>
-                  {message.Content}
-                </div>
-                <div className={`flex flex-col ${message.isUser ? 'items-end' : 'items-start'}`}>
-                  {message.isUser ? <User size={24} /> : <Bot size={24} />}
-                  <span className="text-xs text-gray-500">
+              <div className={`flex items-start space-x-2 max-w-[85%] md:max-w-[70%] ${message.isUser ? 'flex-row-reverse' : ''}`}>
+                <div className={`p-3 rounded-lg ${
+                  message.isUser 
+                    ? 'bg-primary text-primary-foreground' 
+                    : 'bg-muted text-foreground'
+                }`}>
+                  <p className="break-words">{message.Content}</p>
+                  <span className="text-xs opacity-70 mt-1 block">
                     {new Date(message.createdAt).toLocaleTimeString()}
                   </span>
+                </div>
+                <div className={`flex-shrink-0 ${message.isUser ? 'ml-2' : 'mr-2'}`}>
+                  {message.isUser ? <User size={24} /> : <Bot size={24} />}
                 </div>
               </div>
             </div>
           ))}
           <div ref={messagesEndRef} />
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 sticky bottom-0 bg-background pt-2">
           <Input
             type="text"
             value={newMessage}
@@ -113,8 +122,8 @@ export default function ChatSession({ session }: ChatSessionProps) {
             className="flex-1"
             onKeyPress={(e) => e.key === "Enter" && sendMessage()}
           />
-          <Button onClick={sendMessage} className="p-2">
-            <Send size={20} />
+          <Button onClick={sendMessage} size="icon">
+            <Send size={18} />
           </Button>
         </div>
       </CardContent>
