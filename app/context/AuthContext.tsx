@@ -9,6 +9,7 @@ type User = {
   id: number
   username: string
   email: string
+  jwt: string
 }
 
 type AuthContextType = {
@@ -16,6 +17,7 @@ type AuthContextType = {
   setUser: React.Dispatch<React.SetStateAction<User | null>>
   logout: () => void
   isLoading: boolean
+  jwt: string
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -62,6 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }
 
-  return <AuthContext.Provider value={{ user, setUser, logout, isLoading }}>{children}</AuthContext.Provider>
-}
+  const [jwt, setJwt] = useState<string>("")
 
+  return <AuthContext.Provider value={{ user, setUser, logout, isLoading, jwt }}>{children}</AuthContext.Provider>
+}

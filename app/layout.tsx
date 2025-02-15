@@ -1,7 +1,8 @@
 import { AuthProvider } from "./context/AuthContext"
+import { WebSocketProvider } from "./context/WebSocketContext"
 import { Toaster } from "react-hot-toast"
 import "./globals.css"
-import type React from "react" // Added import for React
+import type React from "react"
 
 export default function RootLayout({
   children,
@@ -12,8 +13,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider>
-          {children}
-          <Toaster />
+          <WebSocketProvider>
+            {children}
+            <Toaster />
+          </WebSocketProvider>
         </AuthProvider>
       </body>
     </html>

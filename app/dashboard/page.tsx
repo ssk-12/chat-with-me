@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import LoadingSpinner from "../components/LoadingSpinner"
+import Link from "next/link"
 
 export default function Dashboard() {
   const { user, logout, isLoading } = useAuth()
@@ -28,7 +29,12 @@ export default function Dashboard() {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Welcome to your Dashboard, {user.username}!</h1>
       <p className="mb-4">Email: {user.email}</p>
-      <Button onClick={logout}>Logout</Button>
+      <div className="space-x-4">
+        <Button onClick={logout}>Logout</Button>
+        <Link href="/chat">
+          <Button>Go to Chat</Button>
+        </Link>
+      </div>
     </div>
   )
 }

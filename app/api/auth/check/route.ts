@@ -16,12 +16,12 @@ export async function GET() {
       }
   
       const userData = await response.json();
+      userData.jwt = jwt;
       console.log(userData);
       return userData;
-      // Handle the user data as needed
+      
     } catch (error) {
       console.error('Error:', error);
-      // Handle errors as needed
     }
   };
   
