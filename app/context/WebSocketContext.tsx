@@ -27,7 +27,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   useEffect(() => {
     if (user) {
-      const newSocket = io("http://localhost:1337")
+      const newSocket = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL || "")
 
       newSocket.on("connect", () => {
         console.log("Connected to WebSocket server")

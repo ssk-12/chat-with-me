@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:1337/api"
+const API_URL = process.env.API_URL
 
 
 export async function createChatSession(title: string, userId: string, jwt?: string) {
