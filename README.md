@@ -1,6 +1,6 @@
 # Chat With Me 🤖💬
 
-A real-time AI chat application built with modern web technologies that enables seamless communication between users and AI. Try it out at [chat-with-me-taupe.vercel.app](https://chat-with-me-taupe.vercel.app)!
+A real-time chat application built with modern web technologies that enables seamless communication between users and server, to demonstrate the web socket communication. Try it out at [chat-with-me-taupe.vercel.app](https://chat-with-me-taupe.vercel.app)!
 
 ## 🛠️ Tech Stack
 
