@@ -9,6 +9,7 @@ import ChatSession from "../components/ChatSession"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import LoadingSpinner from "../components/LoadingSpinner"
+import { Menu, X } from "lucide-react"
 
 export default function ChatPage() {
   const { user, isLoading } = useAuth()
@@ -18,6 +19,7 @@ export default function ChatPage() {
   const [chatSessions, setChatSessions] = useState([])
   const [newSessionTitle, setNewSessionTitle] = useState("")
   const [activeSession, setActiveSession] = useState<any>(null)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -86,6 +88,10 @@ export default function ChatPage() {
     router.push(`/chat?sessionId=${session.id}`)
   }
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen)
+  }
+
   if (isLoading) {
     return <LoadingSpinner />
   }
@@ -95,9 +101,28 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/4 bg-gray-100 p-4 overflow-y-auto">
-        <h2 className="text-xl font-bold mb-4">Chat Sessions</h2>
+    <div className="flex h-screen relative">
+      <Button 
+        variant="ghost" 
+        size="icon" 
+        className="lg:hidden absolute top-4 left-4 z-50"
+        onClick={toggleSidebar}
+      >
+        {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+      </Button>
+
+      <div className={`
+        fixed lg:relative
+        w-80 lg:w-1/4
+        bg-gray-100 
+        p-4 
+        overflow-y-auto
+        h-screen
+        transition-transform duration-300 ease-in-out
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        z-40
+      `}>
+        <h2 className="text-xl font-bold mb-4 mt-12 lg:mt-0">Chat Sessions</h2>
         <div className="flex mb-4">
           <Input
             type="text"
@@ -112,7 +137,10 @@ export default function ChatPage() {
           {chatSessions && chatSessions.length > 0 && chatSessions.map((session: any) => (
             <li key={session.id} className="mb-2 flex justify-between items-center">
               <button
-                onClick={() => handleSelectSession(session)}
+                onClick={() => {
+                  handleSelectSession(session)
+                  setIsSidebarOpen(false)
+                }}
                 className={`text-left p-2 rounded hover:bg-gray-200 flex-1 ${
                   (activeSession && activeSession.id === session.id) || 
                   (searchParams.get('sessionId') === session.id) ? "bg-gray-200 font-bold" : ""
@@ -132,7 +160,15 @@ export default function ChatPage() {
           ))}
         </ul>
       </div>
-      <div className="flex-1 p-4">
+
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      <div className="flex-1 p-4 lg:p-8">
         {activeSession ? (
           <ChatSession session={activeSession} />
         ) : (
