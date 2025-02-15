@@ -117,10 +117,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - **Email**: ullegadda.srikanta@gmail.com
 - **GitHub**: [github.com/ssk-12](https://github.com/ssk-12)
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## 🙏 Acknowledgments
 
 - Built with [Next.js](https://nextjs.org/)
