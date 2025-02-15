@@ -64,7 +64,6 @@ function ChatContent() {
         const response = await createChatSession(newSessionTitle, user?.id.toString(), user?.jwt)
         setNewSessionTitle("")
         await loadChatSessions()
-        // Update URL with new session ID
         router.push(`/chat?sessionId=${response.data.id}`)
       } catch (error) {
         console.error("Failed to create chat session:", error)
@@ -116,6 +115,7 @@ function ChatContent() {
         w-80 lg:w-1/4
         bg-gray-100 
         p-4 
+        mb-1
         overflow-y-auto
         h-screen
         transition-transform duration-300 ease-in-out
@@ -151,7 +151,7 @@ function ChatContent() {
               <Button 
                 variant="destructive" 
                 size="sm" 
-                onClick={() => handleDeleteSession(session.id)}
+                onClick={() => handleDeleteSession(session.documentId)}
                 className="ml-2"
               >
                 Delete
