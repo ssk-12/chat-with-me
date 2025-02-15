@@ -65,7 +65,7 @@ export default function Dashboard() {
             <LogOut size={18} />
             Logout
           </Button>
-          <Link href="/chat">
+          <Link href="/chat?new=true">
             <Button className="gap-2">
               <Plus size={18} />
               New Chat
@@ -83,7 +83,7 @@ export default function Dashboard() {
         ) : recentChats.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {recentChats.map((chat) => (
-              <Link href={`/chat?session=${chat.documentId}`} key={chat.id}>
+              <Link href={`/chat?sessionId=${chat.id}`} key={chat.id}>
                 <Card className="hover:shadow-lg transition-shadow">
                   <CardContent className="p-4">
                     <div className="flex items-start space-x-3">
@@ -107,7 +107,7 @@ export default function Dashboard() {
             <MessageSquare size={48} className="mx-auto mb-4 text-gray-400" />
             <h3 className="text-lg font-medium mb-2">No chats yet</h3>
             <p className="text-gray-500 mb-4">Start a new conversation to get started</p>
-            <Link href="/chat">
+            <Link href="/chat?new=true">
               <Button>Start your first chat</Button>
             </Link>
           </div>

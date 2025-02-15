@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useWebSocket } from "../context/WebSocketContext"
+import { useSearchParams, useRouter } from "next/navigation"
 import { fetchChatSessions, createChatSession, deleteChatSession } from "../services/chatService"
 import ChatSession from "../components/ChatSession"
 import { Button } from "@/components/ui/button"
@@ -12,6 +13,8 @@ import LoadingSpinner from "../components/LoadingSpinner"
 export default function ChatPage() {
   const { user, isLoading } = useAuth()
   const { isConnected } = useWebSocket()
+  const searchParams = useSearchParams()
+  const router = useRouter()
   const [chatSessions, setChatSessions] = useState([])
   const [newSessionTitle, setNewSessionTitle] = useState("")
   const [activeSession, setActiveSession] = useState<any>(null)
@@ -21,6 +24,27 @@ export default function ChatPage() {
       loadChatSessions()
     }
   }, [user])
+
+  useEffect(() => {
+    async function initializeSession() {
+      if (!chatSessions.length) return;
+
+      const sessionId = searchParams.get('sessionId')
+      const isNew = searchParams.get('new')
+
+      if (sessionId) {
+        const session = chatSessions.find((s: any) => s.id === sessionId)
+        if (session) {
+          setActiveSession(session)
+        }
+      } else if (isNew) {
+        setActiveSession(null)
+        setNewSessionTitle("")
+      }
+    }
+
+    initializeSession()
+  }, [searchParams, chatSessions])
 
   async function loadChatSessions() {
     try {
@@ -35,9 +59,11 @@ export default function ChatPage() {
   async function handleCreateSession() {
     if (newSessionTitle.trim() && user) {
       try {
-        await createChatSession(newSessionTitle, user?.id.toString(), user?.jwt)
+        const response = await createChatSession(newSessionTitle, user?.id.toString(), user?.jwt)
         setNewSessionTitle("")
-        loadChatSessions()
+        await loadChatSessions()
+        // Update URL with new session ID
+        router.push(`/chat?sessionId=${response.data.id}`)
       } catch (error) {
         console.error("Failed to create chat session:", error)
       }
@@ -46,12 +72,18 @@ export default function ChatPage() {
 
   async function handleDeleteSession(sessionId: string) {
     try {
-      const res = await deleteChatSession(sessionId, user?.jwt)
-      loadChatSessions()
+      await deleteChatSession(sessionId, user?.jwt)
+      await loadChatSessions()
       setActiveSession(null)
+      router.push('/chat?new=true')
     } catch (error) {
       console.error("Failed to delete chat session:", error)
     }
+  }
+
+  function handleSelectSession(session: any) {
+    setActiveSession(session)
+    router.push(`/chat?sessionId=${session.id}`)
   }
 
   if (isLoading) {
@@ -80,12 +112,20 @@ export default function ChatPage() {
           {chatSessions && chatSessions.length > 0 && chatSessions.map((session: any) => (
             <li key={session.id} className="mb-2 flex justify-between items-center">
               <button
-                onClick={() => setActiveSession(session)}
-                className={`text-left ${activeSession && activeSession.id === session.id ? "font-bold" : ""}`}
+                onClick={() => handleSelectSession(session)}
+                className={`text-left p-2 rounded hover:bg-gray-200 flex-1 ${
+                  (activeSession && activeSession.id === session.id) || 
+                  (searchParams.get('sessionId') === session.id) ? "bg-gray-200 font-bold" : ""
+                }`}
               >
                 {session.Title}
               </button>
-              <Button variant="destructive" size="sm" onClick={() => handleDeleteSession(session.documentId)}>
+              <Button 
+                variant="destructive" 
+                size="sm" 
+                onClick={() => handleDeleteSession(session.id)}
+                className="ml-2"
+              >
                 Delete
               </Button>
             </li>
@@ -96,7 +136,16 @@ export default function ChatPage() {
         {activeSession ? (
           <ChatSession session={activeSession} />
         ) : (
-          <div className="text-center text-gray-500">Select a chat session to start messaging</div>
+          <div className="text-center text-gray-500 mt-8">
+            {searchParams.get('new') ? (
+              <div>
+                <p className="mb-4">Create a new chat session to start messaging</p>
+                <p className="text-sm">Enter a title in the sidebar and click Create</p>
+              </div>
+            ) : (
+              <p>Select a chat session to start messaging</p>
+            )}
+          </div>
         )}
       </div>
     </div>
