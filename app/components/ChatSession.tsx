@@ -54,7 +54,7 @@ export default function ChatSession({ session }: ChatSessionProps) {
   async function loadMessages() {
     try {
       if (!user) return
-      const response = await fetchMessages(session.id, user.jwt)
+      const response = await fetchMessages(session.id, user.id.toString(), user.jwt)
       setMessages(response.data.map((msg: Message, index: number) => ({ ...msg, isUser: [true, false, true, false, true, false, true, false][index % 8] })))
     } catch (error) {
       console.error("Failed to load messages:", error)

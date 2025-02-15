@@ -38,8 +38,8 @@ export async function deleteChatSession(sessionId: string, jwt?: string) {
   return true
 }
 
-export async function fetchChatSessions(jwt? : string) {
-  const response = await fetch(`${API_URL}/chat-sessions`, {
+export async function fetchChatSessions(userId: string, jwt? : string) {
+  const response = await fetch(`${API_URL}/chat-sessions?filters[user][$eq]=${userId}`, {
     headers: {
       "Authorization": `Bearer ${jwt}`
     }
@@ -52,8 +52,8 @@ export async function fetchChatSessions(jwt? : string) {
   return response.json()
 }
 
-export async function fetchMessages(sessionId: string, jwt?: string) {
-  const response = await fetch(`${API_URL}/messages?filters[chat_session][id][$eq]=${sessionId}`, {
+export async function fetchMessages(sessionId: string, userId: string, jwt?: string) {
+  const response = await fetch(`${API_URL}/messages?filters[chat_session][id][$eq]=${sessionId}&filters[user][$eq]=${userId}`, {
     headers: {
       "Authorization": `Bearer ${jwt}`
     }

@@ -33,7 +33,7 @@ export default function Dashboard() {
     async function loadRecentChats() {
       if (user) {
         try {
-          const response = await fetchChatSessions(user.jwt)
+          const response = await fetchChatSessions(user.id.toString(), user.jwt)
           setRecentChats(response.data.slice(0, 5)) 
         } catch (error) {
           console.error("Failed to load recent chats:", error)

@@ -1,7 +1,6 @@
 "use server"
 
 import { cookies } from "next/headers"
-
 const API_URL = "https://wise-basketball-34f2254001.strapiapp.com/api"
 
 export async function signUp(formData: FormData) {
@@ -74,6 +73,7 @@ export async function signIn(formData: FormData) {
 export async function logout() {
   const cookieStore = await cookies()
   cookieStore.delete("jwt")
+  localStorage.removeItem("user")
   return { success: true }
 }
 

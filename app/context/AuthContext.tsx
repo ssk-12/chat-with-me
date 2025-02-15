@@ -57,8 +57,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setUser(null)
       localStorage.removeItem("user")
-      await logoutAction()
-      router.push("/auth/signin")
+      const response = await logoutAction()
+      if (response.success) {
+        router.push("/auth/signin")
+        localStorage.removeItem("user")
+      }
     } catch (error) {
       console.error("Logout failed:", error)
     }

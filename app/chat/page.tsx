@@ -51,7 +51,7 @@ function ChatContent() {
   async function loadChatSessions() {
     try {
       if (!user) return
-      const response = await fetchChatSessions(user.jwt)
+      const response = await fetchChatSessions(user.id.toString(), user.jwt)
       setChatSessions(response.data)
     } catch (error) {
       console.error("Failed to load chat sessions:", error)
