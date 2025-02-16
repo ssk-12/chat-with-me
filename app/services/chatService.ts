@@ -53,7 +53,7 @@ export async function fetchChatSessions(userId: string, jwt? : string) {
 }
 
 export async function fetchMessages(sessionId: string, userId: string, jwt?: string) {
-  const response = await fetch(`${API_URL}/messages`, {
+  const response = await fetch(`${API_URL}/messages?filters[chat_session][id][$eq]=${sessionId}`, {
     headers: {
       "Authorization": `Bearer ${jwt}`
     }
